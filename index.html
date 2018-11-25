@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mark's Image finder</title>
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+ 
+<h1>Nasa Image Provider</h1>
+
+<br>
+
+
+    Search term: <input id='searchBox' value="metal" type="text" name="fname">
+    <!-- <button onclick="addImages('x')" >Search</button> -->
+    <button onclick="addImages( $('#searchBox').val())" >Search</button>
+ 
+</body>
+
+<script>
+    function addImages(searchTerm){
+        //remove the id for add next 12 images a link
+        //$("body").append("<br>new line here")
+
+        
+        //make these global?
+        let fileNumber = 0;
+        let outerLoop = 0;
+        let filesOutput = 0;
+
+        $.getJSON("https://images-api.nasa.gov/search?q="+searchTerm, function (data){
+
+            while (fileNumber <30){
+
+
+                let firstReturn = data.collection.items[fileNumber].href;
+                //console.log("outer loop for loop# " + outerLoop + " return is " + firstReturn)
+                $.getJSON(firstReturn, function (data2){
+                    let i = 0;
+                    let url = data2[i];
+                    do{
+                        if (url.endsWith('.png') || url.endsWith('.img') || url.endsWith('.jpg')){
+                            console.log(url)
+                            if (filesOutput <12){
+                                appendFileLink(data2[i]);
+                                filesOutput+=1;
+                            }
+                            break;//don't check for another filetype of the same file
+                        }
+                        i+=1; 
+                    }while(i < 20)//check the first 20 file types
+                });
+            
+                fileNumber +=1;
+            }
+            $("body").append("<br>")
+        });
+}
+
+
+    //function to append a single file to the end of the body
+    function appendFileLink(url){
+        if (url.endsWith('.png') || url.endsWith('.img') || url.endsWith('.jpg') )
+            $("body").append("<img width='320' height='240' src='"+url+"'>")
+        // else if (url.endsWith('.mp4') || url.endsWith('.mp3')|| url.endsWith('.wav')) 
+        //     $("body").append("<video width='320' height='240' controls> <source src='" +url + "' type='video/mp4'></video>")    
+        else 
+            console.log("unsupported file type: " + url)
+    }
+
+</script>
+
+</html>
