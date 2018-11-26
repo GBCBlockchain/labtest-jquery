@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Mark's Image finder</title>
-    <!-- <link rel="stylesheet" href="css/style.css"> -->
+
+
+    <!-- JQUERY -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <!-- Latest compiled and minified CSS -->
@@ -15,83 +17,18 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+    <!-- Mark's .js code -->
+    <script type="text/javascript" src="addImages.js"></script>
 </head>
 <body>
- 
-<h1>Nasa Image Provider</h1>
-<br>
+    <h1>Nasa Image Provider</h1>
+    <br>
     Search term: <input id='searchBox' value="audio" type="text" name="fname">
-    <!-- <button onclick="addImages('x')" >Search</button> -->
+
+    <!-- clicking search will remove old images, reset image counter and add the new images -->
     <button id='search' onclick="$('img').remove();itemID=0;addImages( $('#searchBox').val());" >Search</button><br><br>
     <p></p>
+    <!-- clicking slow more will add more images -->
     <a id='showMore' onclick="addImages( $('#searchBox').val());"><br><center>Click here to load more images</center></a>
 </body>
-
-
-
-<script>
-    //track what point in NASA's DB we are searching for photos from
-    var itemID = 0;
-    const picturesPerClick = 12;
-
-    //add images to browser
-    function addImages(searchTerm){
-        $.getJSON("https://images-api.nasa.gov/search?q="+searchTerm, function (imagesJSON){
-            showNextX(imagesJSON,picturesPerClick)
-        });
-    }  
-
-    //shows the next numImg files
-    //starts trying to add images from imagesJSON at location itemID
-    //uses recursion to deal with async loops when the image can't be displayed
-    function showNextX(imagesJSON,numImg){
-        let maxItemID = itemID + numImg;
-        for (; itemID < maxItemID;itemID++){
-            if (imagesJSON.collection.items[itemID]){
-                let image = imagesJSON.collection.items[itemID].href;
-                //get the image urls from the json collection of images
-                $.getJSON(image, function (imageJSON){
-                    //append a url in imageJSON if one exists, otherwise try again
-                    if (!appendImage(imageJSON)){
-                        showNextX(imagesJSON,1)
-                    }
-                });
-            }else {
-                console.log("ran out of items");
-                $("#showMore").text("Nothing more to show").css({ 'color': 'red', 'font-size': '150%' });;
-            }     
-        }
-        //$("#showMore").append((imagesJSON.collection.items.length - itemID) + " more pics to show")
-
- 
-    }
-
-    function appendImage(imageJSON){
-        for (let i=0;i<20;i++){
-            let url = imageJSON[i];
-            if ( (typeof(url)=="string") && urlIsImg(url) ){
-                appendFileLink(imageJSON[i]);
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-
-    //function to append a single file to the end of the body
-    function appendFileLink(url){
-        if (urlIsImg(url) )
-            $("p").append("<img width='132' height='124' src='"+url+"'>")
-        else 
-            console.log("unsupported file type: " + url)
-    }
-
-    //check if a given url is a displayable image
-    function urlIsImg(url){
-        return ( url.endsWith('.png') || url.endsWith('.img') || url.endsWith('.jpg'))
-    }
-
-</script>
-
 </html>
