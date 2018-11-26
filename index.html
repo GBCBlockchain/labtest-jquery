@@ -22,7 +22,7 @@
 <br>
     Search term: <input id='searchBox' value="metal" type="text" name="fname">
     <!-- <button onclick="addImages('x')" >Search</button> -->
-    <button onclick="addImages( $('#searchBox').val());$('img').remove()" >Search</button><br><br>
+    <button id='search' onclick="$('#showMore').prepend('<p></p>');addImages( $('#searchBox').val());$('img').remove();" >Search</button><br><br>
     <a id='showMore' onclick="addImages( $('#searchBox').val());"><br><center>Click here to load more images</center></a>
 </body>
 
@@ -35,24 +35,29 @@
 
         //will redisplay when there were missing images
         let itemID = $('img').length;
-        let maxItem = itemID+30;
+        console.log("starting checking images at " + itemID)
+        let maxItem = itemID+15;
         //let outerLoop = 0;
         let numItemsRendered = 0;
 
-        $.getJSON("https://images-api.nasa.gov/search?q="+searchTerm, function (data){
+        $.getJSON("https://images-api.nasa.gov/search?q="+searchTerm, function (imagesJSON){
             while (itemID <30){
+                console.log(itemID)
 
 
-                let firstReturn = data.collection.items[itemID].href;
-                //console.log("outer loop for loop# " + outerLoop + " return is " + firstReturn)
-                $.getJSON(firstReturn, function (data2){
+                let image = imagesJSON.collection.items[itemID].href;
+                //console.log("outer loop for loop# " + outerLoop + " return is " + image)
+                $.getJSON(image, function (imageJSON){
+
+                    console.log(typeof(imageJSON))
                     let i = 0;
-                    let url = data2[i];
+                    let url = imageJSON[i];
                     do{
                         if (url.endsWith('.png') || url.endsWith('.img') || url.endsWith('.jpg')){
-                            console.log(url)
+                            
                             if (numItemsRendered <12){
-                                appendFileLink(data2[i]);
+                                console.log(url + " checks out and is being rendered")
+                                appendFileLink(imageJSON[i]);
                                 numItemsRendered+=1;
                             }
                             // else{
@@ -67,7 +72,7 @@
             
                 itemID +=1;
             }
-            $("body").append("<br>")
+            //$("body").append("<br>")
         });
         //$("body").append("<a id='showMore'>Click here to load more images</a>")
 }   
@@ -76,7 +81,7 @@
     //function to append a single file to the end of the body
     function appendFileLink(url){
         if (url.endsWith('.png') || url.endsWith('.img') || url.endsWith('.jpg') )
-        $("#showMore").prepend("<img width='320' height='240' src='"+url+"'>")
+        $("p").append("<img width='32' height='24' src='"+url+"'>")
         // else if (url.endsWith('.mp4') || url.endsWith('.mp3')|| url.endsWith('.wav')) 
         //     $("body").append("<video width='320' height='240' controls> <source src='" +url + "' type='video/mp4'></video>")    
         else 
