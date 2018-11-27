@@ -2,6 +2,8 @@ $(document).ready(function(e) {
     
     $('#submit').click(function (event) {
         event.preventDefault();  // Do not run the default action
+        
+        $('#image-container').empty();  //refresh old search
 
         let searchQuery = $(':text[name="searchq"]').val();
         $.get("https://images-api.nasa.gov/search?q=" + searchQuery, function(data, status) {
@@ -29,8 +31,8 @@ $(document).ready(function(e) {
                 for(var i = 1; i <= totalPages; i++) {
                     $('#image-container').append('<div class="page" id="page' + i + '"></div>');
                     for(var j = 0; j < 12; j++) {
-                        
-                        $('#page' + i).append('<img height="150" width="200" src="' + validData[i*j].links[0].href + '"></img>')
+                        if (i*j >= validData.length) { break; };
+                        $('#page' + i).append('<img height="250" width="325" style="padding:20px"src="' + validData[i*j].links[0].href + '" title="' + validData[i*j].data[0].title + '"></img>')
                     }
                 }
                 

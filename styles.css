@@ -4,3 +4,22 @@
 .page-active {
   display: block;
 }
+#image-container {
+    padding: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+#header{
+padding: 50px;
+text-align: center;
+}
+
+#searchbox{
+margin-left: 100px;
+}
+
+#pagination{
+margin-left: 100px;
+}
