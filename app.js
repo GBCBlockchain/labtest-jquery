@@ -53,37 +53,38 @@ const renderImages = function (imgdata, page) {
     imgContainer.empty();
     pageData.forEach(function (item) {
         var div = $('<div>').addClass('imgHolder')
-        var img //= $('<img>');
+        var img = $('<img>');
         var caption = $('<div>').addClass('title');
         var descrip = $('<div>').addClass('descHide');
         img.attr('src', item['href']);
          img.css("width", "25%");
-         img.css("height", "25%");
+         img.css("height", "25%");;
         img.appendTo(div);
-        // img.css("display" , "inline")
         caption.text(item['title']);
         caption.appendTo(div);
         descrip.text(item['desc']);
         descrip.appendTo(div);
         div.appendTo(imgContainer);
-        //descrip.hide()
-        $('images').on('click' , function() {
-            $('desc').show()
-        })
     })
-    if ((page + 1) < numpages) {
-        // render link - add click event
-        var linkContainer = $('#seemore')
-        linkContainer.empty()
-        var link = $('<a>')
-        link.text('See More')
-        link.appendTo(linkContainer)
-        $(linkContainer).on('click', function () {
-            console.log("see ,,,")
-            page = page + 1
-            renderImages(renderData, page)
+
+        imgContainer.on('click' , function() {
+            show();
         })
-    }
+
+
+        if ((page + 1) < numpages) {
+        // render link - add click event
+             var linkContainer = $('#seemore')
+             linkContainer.empty()
+             var link = $('<a>')
+             link.text('See More')
+             link.appendTo(linkContainer)
+             $(linkContainer).on('click', function () {
+                 console.log("see ,,,")
+                 page = page + 1
+                renderImages(renderData, page)
+                })
+        }
 }
 
 

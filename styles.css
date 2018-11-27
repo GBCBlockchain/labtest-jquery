@@ -19,7 +19,12 @@
   }
 
   .descHide {
-    display: none;
+    display: block;
     visibility: hidden;
+  }
 
+  .title {
+      color: red;
+      font-size: large;
+      padding: 10px;
   }
