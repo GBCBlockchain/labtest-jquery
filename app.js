@@ -3,31 +3,35 @@ var renderData;
 var page = 0;
 
 const renderImages = function (imgdata, page) {
-    var pageData = imgdata.slice((page * 12), (page * 12 + 11));
+    var pageData = imgdata.slice((page * 12), ((page + 1) * 12));
     var numpages = Math.ceil(imgdata.length / 12);
     let imgContainer = $("#images");
     imgContainer.empty();
     pageData.forEach(function (item) {
-        let div = $('<div>');
+        let divCol = $('<div>');
+        divCol.addClass("col-md-3");
+        let divTh = $('<div>');
+        divTh.addClass("thumbnail")
+        let aHr = $('<a>');
+        aHr.attr('href', item['href']);
         let img = $('<img>');
         img.attr('src', item['href']);
+        img.attr('alt', item['title']);
+        img.css("width","100%")
+        img.appendTo(aHr);
         let caption = $('<div>');
-        div.addClass("col-md-3 profile-card-1");
-        img.addClass("img-fluid");
-        img.appendTo(div);
-        caption.addClass("card-content");
+        caption.addClass("caption");
         caption.text(item['title']);
-        caption.appendTo(div);
+        caption.appendTo(aHr);
         let descrip = $('<div>');
         descrip.text(item['desc']);
-        descrip.appendTo(div);
-        div.appendTo(imgContainer);
+        descrip.appendTo(aHr);
+        aHr.appendTo(divTh);
+        divTh.appendTo(divCol);
+        divCol.appendTo(imgContainer);
         descrip.hide();
-        img.mouseover(function () {
+        img.hover(function () {
             descrip.show();
-        });
-        img.mouseout(function () {
-            descrip.hide();
         });
     })
     if ((page + 1) < numpages) {
