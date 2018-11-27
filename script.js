@@ -10,11 +10,29 @@ $(document).ready(function(e) {
             if(status == "success") {
                 console.log(data);
                 let counter = 0;
+                var validData = [];
+                
+                // Filter data for blanks or non-images
+                data.collection.items.forEach((item) => {
+                    if (item.links == undefined || item.links[0].href == undefined || item.links[0].href.split('.').pop() == 'srt') {
+                        return;
+                    } else {
+                        validData.push(item);
+                    }
+                });
                 
                 // Partition data for pagination
-                let totalItems = data.collection.items.length;
+                let totalItems = validData.length;
                 let totalPages = Math.ceil(totalItems / 12);
                 
+                // Build DOM
+                for(var i = 1; i <= totalPages; i++) {
+                    $('#image-container').append('<div class="page" id="page' + i + '"></div>');
+                    for(var j = 0; j < 12; j++) {
+                        
+                        $('#page' + i).append('<img height="150" width="200" src="' + validData[i*j].links[0].href + '"></img>')
+                    }
+                }
                 
                 // Pagination struct
                 $('#pagination').twbsPagination({
@@ -23,7 +41,7 @@ $(document).ready(function(e) {
                     startPage: 1,
 
                     // maximum visible pages
-                    visiblePages: totalPages,
+                    visiblePages: 5,
 
                     initiateStartPageClick: true,
 
@@ -60,14 +78,7 @@ $(document).ready(function(e) {
 
                 });
                 
-                // Build DOM
-                for(var i = 1; i <= totalPages; i++) {
-                    $('#image-container').append('<div class="jumbotron page" id="page' + i + '"></div>');
-                    for(var j = 0; j < 12; j++) {
-                        
-                        data.collection.items[i*j].links ? $('#page' + i).append('<img height="150" width="200" src="' + data.collection.items[i*j].links[0].href + '"></img>') : $('#page' + i).append('<div>BLANK</div>');
-                    }
-                }
+
                 
             } else {
                 alert("Error retreiving images from NASA. Status", status);
