@@ -14,18 +14,44 @@
     //starts trying to add images from imagesJSON at location itemID
     //uses recursion to deal with async loops when the image can't be displayed
     //interacts with html when there are no images left to display
+    
+    
+    // for(var i = 0; i < length; i++){
+    //     var variable = variables[i];
+    //     (function(var){ //start wrapper code
+    //       otherVariable.doSomething(var, function(err){ //callback for when doSomething ends
+    //         do something else with var; //please note that i'm dealing with var here, not variable
+    //       }
+    //     })(variable);//passing in variable to var here
+    //   }
+      
+    
+    
+    
     function showNextX(imagesJSON,numImg){
         let maxItemID = itemID + numImg;
         for (; itemID < maxItemID;itemID++){
+            //if we have not reached the end of the images
             if (imagesJSON.collection.items[itemID]){
                 let image = imagesJSON.collection.items[itemID].href;
-                //get the image urls from the json collection of images
-                $.getJSON(image, function (imageJSON){
-                    //append a url in imageJSON if one exists, otherwise try again
-                    if (!appendImage(imageJSON)){
-                        showNextX(imagesJSON,1)
-                    }
-                });
+                //use IVF - immediately invoked function to pass variable to callback inside loop
+                let descrip = imagesJSON.collection.items[itemID].data[0].description;
+                (function(descr){
+                    //get the image urls from the json collection of images
+                    $.getJSON(image, function (imageJSON){
+                        console.log(itemID)
+                        //append a url in imageJSON if one exists, otherwise try again
+                        console.log(descr)
+                        if (!appendImage(imageJSON, descr)){
+                            showNextX(imagesJSON,1)
+                            
+                        }
+                        //else 
+                        //$("p").append(imagesJSON.collection.items[itemID].data[0].description+"<br>")
+                    });
+                })(descrip)//end IVF
+                
+
             }else {
                 //let the user know there are no more images to display
                 console.log("ran out of items");
@@ -36,11 +62,11 @@
     }
 
     //called to append a specific version of an image from the JSON including many versions of that file
-    function appendImage(imageJSON){
+    function appendImage(imageJSON, desc){
         for (let i=0;i<20;i++){
             let url = imageJSON[i];
             if ( (typeof(url)=="string") && urlIsImg(url) ){
-                appendFileLink(imageJSON[i]);
+                appendFileLink(imageJSON[i], desc);
                 return true;
             }
         }
@@ -50,9 +76,9 @@
 
     //Interacts with the html file
     //function to append a single file to the html file
-    function appendFileLink(url){
+    function appendFileLink(url, desc){
         if (urlIsImg(url) )
-            $("p").append("<img width='132' height='124' src='"+url+"'>")
+            $("p").append("<img width='132' height='124' src='"+url+"'><br>"+desc)
         else 
             console.log("unsupported file type: " + url)
     }
