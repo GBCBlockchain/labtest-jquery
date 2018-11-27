@@ -1,0 +1,25 @@
+#head1 {
+    text-align: center;
+    color: rgb(17, 0, 255);
+}
+
+#search {
+    background-color: lightgrey;
+    width: 300px;
+    border: 10px solid rgb(17, 0, 255);
+    padding: 25px;
+    margin: 25px;
+}
+
+.imgHolder {
+    /* display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap; */
+    background-color: rgb(30, 255, 255);
+  }
+
+  .descHide {
+    display: none;
+    visibility: hidden;
+
+  }
