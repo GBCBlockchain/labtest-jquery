@@ -35,7 +35,6 @@ const renderImages = function (imgdata, page) {
         });
     })
     if ((page + 1) < numpages) {
-        // render link - add click event
         let linkContainer = $('#seemore');
         linkContainer.empty();
         let link = $('<a>');
@@ -43,7 +42,6 @@ const renderImages = function (imgdata, page) {
         link.addClass("badge badge-primary");
         link.appendTo(linkContainer);
         $(linkContainer).on('click', function () {
-            console.log("see more");
             page = page + 1;
             renderImages(renderData, page);
         })
