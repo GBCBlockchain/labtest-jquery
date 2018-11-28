@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico"/>
+    <title>Nasa Image Viewer</title>
+</head>
+<body>
+    <div id="topContent">
+        <h1>NASA Image Searcher</h1>
+        <h6>Hover over images to see their title</h6>
+
+        <div class="input">
+            <input id="searchBar" type="text" placeholder="Search Term">
+            <button id="searchButton">Search</button>
+            <p id="hitCounter"></p>
+        </div>
+    </div>
+
+    <br>
+    
+    <!-- div which holds all the pics-->
+    <div id="image">
+    </div>
+
+    <!-- # of images displayed and # total results -->
+    <div id="bottomContent">
+        <h6 id="hitsOnPage"></h6> <h6 id="totalResults"></h6>
+    </div>
+    
+    <!-- button to show more pics -->
+    <div class="wrapper"><button id="showMore">Show More</button></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="underscore-min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

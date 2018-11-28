@@ -1,0 +1,46 @@
+
+h1,h5,h6 {
+    text-align: center;
+}
+
+.input {
+    text-align: center;
+}
+
+#showMore {
+    visibility: hidden;
+    vertical-align: 50%;
+}
+
+html {
+    background-color: #83a4d4;
+    background: linear-gradient(to right, #83a4d4, #b6fbff);
+}
+
+#image {
+    text-align: center;
+    background-color: #83a4d4;
+    background: linear-gradient(to right, #83a4d4, #b6fbff);
+}
+
+body {
+    background-color: #83a4d4;
+    background: linear-gradient(to right, #83a4d4, #b6fbff);
+}
+
+#topContent {
+    background-color: white;
+}
+
+#hitsOnPage, #totalResults {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#bottomContent {
+    text-align: center;
+}
+
+.wrapper {
+    text-align: center;
+}
